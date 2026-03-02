@@ -1,0 +1,24 @@
+name: C Build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build with Make
+        run: make
+
+      - name: Run with test data
+        run: |
+          cp tests/applicants.txt applicants.txt
+          ./applicants applicants.txt result.txt
+
+      - name: Check filtered result
+        run: |
+          test -f result.txt
+          grep -q "Иванов" result.txt
+          grep -q "Петрова" result.txt
+          grep -q "Козлова" result.txt
+          ! grep -q "Сидоров" result.txt || exit 1

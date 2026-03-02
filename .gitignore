@@ -1,0 +1,5 @@
+/bin/
+/applicants
+/result.txt
+*.o
+.DS_Store
